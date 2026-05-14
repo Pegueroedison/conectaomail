@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Condiciones de Servicio — ConectaoMail</title>
+  <meta name="description" content="Condiciones de Servicio de ConectaoMail. Conoce los términos de uso del complemento." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1D9E75;
+      --green-dark: #0F6E56;
+      --green-light: #E1F5EE;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --border: #e2e2e2;
+      --bg: #ffffff;
+      --bg-secondary: #f7f8f6;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 34px; width: auto; }
+    .nav-back {
+      font-size: 14px; color: var(--text-muted);
+      text-decoration: none; display: flex; align-items: center; gap: 5px;
+      transition: color 0.15s;
+    }
+    .nav-back:hover { color: var(--green); }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 5rem;
+    }
+
+    .page-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .updated {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+    }
+
+    .card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h2 .icon {
+      width: 28px; height: 28px;
+      background: var(--green-light);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card h2 .icon svg {
+      width: 15px; height: 15px;
+      stroke: var(--green-dark); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    .card p:last-child { margin-bottom: 0; }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+    }
+
+    .card ul li {
+      font-size: 15px;
+      color: var(--text-muted);
+      padding: 5px 0 5px 1.2rem;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .card ul li:last-child { border-bottom: none; }
+    .card ul li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%);
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .highlight {
+      background: var(--green-light);
+      border: 1px solid #9FE1CB;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 15px;
+      color: var(--green-dark);
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .contact-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2rem;
+    }
+    .contact-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .contact-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 15px; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .contact-row:last-child { border-bottom: none; }
+    .contact-row svg { width: 18px; height: 18px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .contact-row a { color: var(--green); text-decoration: none; }
+    .contact-row a:hover { text-decoration: underline; }
+
+    footer {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+    footer img { height: 26px; width: auto; }
+    .footer-note { font-size: 13px; color: var(--text-muted); }
+    footer a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+    footer a:hover { color: var(--green); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; }
+      .container { padding: 2.5rem 1.2rem 4rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-logo" href="index.html">
+      <img src="ConectaoMaillogo.png" alt="ConectaoMail" />
+    </a>
+    <a class="nav-back" href="index.html">← Volver al inicio</a>
+  </nav>
+
+  <div class="container">
+    <div class="page-label">Legal</div>
+    <h1>Condiciones de Servicio</h1>
+    <p class="updated">Última actualización: 2025</p>
+
+    <div class="highlight">
+      Al usar ConectaoMail aceptas estas condiciones. El complemento se ofrece como herramienta de automatización de correos sobre Google Sheets y Gmail.
+    </div>
+
+    <div class="card">
+      <h2>
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </span>
+        Uso del complemento
+      </h2>
+      <p>ConectaoMail es un complemento para Google Sheets diseñado para automatizar el envío de correos masivos personalizados. Al usarlo, el usuario acepta:</p>
+      <ul>
+        <li>Usar el complemento únicamente para fines legales y legítimos</li>
+        <li>No enviar correo no deseado (spam) ni contenido malicioso</li>
+        <li>Respetar las políticas de uso de Gmail y Google Workspace</li>
+        <li>Ser responsable del contenido de los correos enviados</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </span>
+        Licencias
+      </h2>
+      <p>ConectaoMail ofrece tres tipos de licencia:</p>
+      <ul>
+        <li><strong>Trial:</strong> acceso gratuito limitado para evaluación del complemento</li>
+        <li><strong>Pro:</strong> acceso completo mediante suscripción activa</li>
+        <li><strong>Permanente:</strong> acceso completo mediante pago único sin vencimiento</li>
+      </ul>
+      <p style="margin-top:0.75rem;">La licencia es personal e intransferible. No está permitido compartir, revender ni redistribuir el acceso.</p>
+    </div>
+
+    <div class="card">
+      <h2>
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Limitación de responsabilidad
+      </h2>
+      <p>ConectaoMail se proporciona "tal cual". No garantizamos disponibilidad ininterrumpida ni nos hacemos responsables de:</p>
+      <ul>
+        <li>Pérdida de datos derivada del uso del complemento</li>
+        <li>Cambios en las APIs de Google que afecten el funcionamiento</li>
+        <li>Correos bloqueados o rechazados por proveedores de correo externos</li>
+        <li>Uso indebido del complemento por parte del usuario</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </span>
+        Modificaciones
+      </h2>
+      <p>Nos reservamos el derecho de modificar estas condiciones en cualquier momento. Los cambios serán notificados a través del complemento o por correo electrónico. El uso continuado del complemento implica la aceptación de las nuevas condiciones.</p>
+    </div>
+
+    <div class="contact-card">
+      <p>Para consultas sobre estas condiciones:</p>
+      <div class="contact-row">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <a href="mailto:edisonpeguero61@gmail.com">edisonpeguero61@gmail.com</a>
+      </div>
+      <div class="contact-row">
+        <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <a href="https://wa.me/18097582769" target="_blank" rel="noopener">809-758-2769</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="index.html"><img src="ConectaoMaillogo.png" alt="ConectaoMail" /></a>
+    <a href="privacy.html">Política de privacidad</a>
+    <span class="footer-note">© 2025 ConectaoMail</span>
+  </footer>
+
+</body>
+</html>
