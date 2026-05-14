@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ConectaoMail — Campañas de correo para Google Sheets</title>
+  <meta name="description" content="Automatiza campañas de correo masivas y personalizadas directamente desde Google Sheets." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green: #1D9E75;
+      --green-dark: #0F6E56;
+      --green-light: #E1F5EE;
+      --text: #1a1a1a;
+      --text-muted: #5a5a5a;
+      --border: #e2e2e2;
+      --bg: #ffffff;
+      --bg-secondary: #f7f8f6;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--green); }
+    .nav-links .btn-nav {
+      background: var(--green);
+      color: #fff;
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-links .btn-nav:hover { background: var(--green-dark); color: #fff; }
+
+    /* HERO */
+    .hero {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 100px;
+      padding: 5px 14px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 span { color: var(--green); }
+    .hero p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green); color: #fff;
+      padding: 11px 24px; border-radius: 9px;
+      font-size: 15px; font-weight: 500;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--green-dark); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: transparent; color: var(--text);
+      border: 1px solid var(--border);
+      padding: 11px 24px; border-radius: 9px;
+      font-size: 15px; font-weight: 500;
+      text-decoration: none; transition: background 0.15s;
+    }
+    .btn-outline:hover { background: var(--bg-secondary); }
+
+    /* LOGO HERO */
+    .hero-logo { margin-bottom: 2rem; }
+    .hero-logo img { height: 90px; width: auto; }
+
+    /* FEATURES */
+    .features {
+      background: var(--bg-secondary);
+      padding: 4rem 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .section-inner { max-width: 860px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 0.6rem;
+    }
+    .section-inner h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px; font-weight: 700;
+      margin-bottom: 0.75rem; letter-spacing: -0.01em;
+    }
+    .section-inner .section-desc {
+      font-size: 15px; color: var(--text-muted);
+      margin-bottom: 2.5rem; max-width: 520px; line-height: 1.7;
+    }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+    }
+    .feat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.3rem;
+    }
+    .feat-icon {
+      width: 36px; height: 36px;
+      background: var(--green-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .feat-icon svg { width: 18px; height: 18px; stroke: var(--green-dark); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .feat-card h3 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .feat-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* PLANS */
+    .plans { padding: 4rem 2rem; }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px; margin-top: 2rem;
+    }
+    .plan {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem 1.5rem;
+    }
+    .plan.featured { border: 2px solid var(--green); }
+    .plan-badge {
+      display: inline-block;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      background: var(--green-light); color: var(--green-dark);
+      padding: 3px 10px; border-radius: 100px;
+      margin-bottom: 0.75rem;
+    }
+    .plan h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px; font-weight: 700; margin-bottom: 0.5rem;
+    }
+    .plan p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+    .plan-chip {
+      display: inline-block;
+      font-size: 12px; font-weight: 500;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 100px; padding: 4px 12px;
+      color: var(--text-muted);
+    }
+
+    /* SUPPORT */
+    .support {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem;
+    }
+    .support-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      max-width: 460px;
+      margin-top: 1.5rem;
+    }
+    .support-row {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 15px; padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .support-row:last-child { border-bottom: none; }
+    .support-row svg { width: 20px; height: 20px; stroke: var(--green); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .support-row a { color: var(--green); text-decoration: none; }
+    .support-row a:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    footer {
+      padding: 2rem 2rem;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 8px; }
+    .footer-logo img { height: 28px; width: auto; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 13px; color: var(--text-muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--green); }
+    .footer-copy { font-size: 13px; color: var(--text-muted); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links .nav-label { display: none; }
+      .hero { padding: 3rem 1.2rem 3rem; }
+      .features, .plans, .support { padding: 3rem 1.2rem; }
+      footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <img src="ConectaoMaillogo.png" alt="ConectaoMail" />
+    </a>
+    <div class="nav-links">
+      <a href="#funciones" class="nav-label">Funciones</a>
+      <a href="#planes" class="nav-label">Planes</a>
+      <a href="#soporte" class="nav-label">Soporte</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="mailto:edisonpeguero61@gmail.com" class="btn-nav">Contactar</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-logo">
+      <img src="ConectaoMaillogo.png" alt="ConectaoMail logo" />
+    </div>
+    <div class="hero-badge">✦ Complemento para Google Sheets</div>
+    <h1>Automatiza tus campañas<br>de correo desde <span>Google Sheets</span></h1>
+    <p>ConectaoMail te permite enviar correos masivos personalizados, gestionar adjuntos, verificar respuestas y organizar seguimientos — todo sin salir de tu hoja de cálculo.</p>
+    <div class="hero-cta">
+      <a href="#funciones" class="btn-primary">Ver funciones</a>
+      <a href="#soporte" class="btn-outline">Contactar soporte</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="funciones">
+    <div class="section-inner">
+      <div class="section-label">Funciones principales</div>
+      <h2>Todo lo que necesitas para tus campañas</h2>
+      <p class="section-desc">Centraliza el envío, seguimiento y gestión de correos masivos desde una sola hoja de cálculo.</p>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </div>
+          <h3>Envío personalizado</h3>
+          <p>Correos únicos para cada destinatario con variables automáticas desde tus columnas.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          </div>
+          <h3>Variables automáticas</h3>
+          <p>Inserta datos de tus columnas directamente en el asunto y cuerpo del correo.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          </div>
+          <h3>Gestión de adjuntos</h3>
+          <p>Adjunta archivos desde Google Drive de forma masiva a cada correo.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <h3>Verificación de respuestas</h3>
+          <p>Detecta quién respondió y mantén tu lista actualizada automáticamente.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3>Detección de rebotados</h3>
+          <p>Identifica correos fallidos y limpia tu lista sin esfuerzo manual.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+          </div>
+          <h3>Seguimiento automático</h3>
+          <p>Organiza y programa seguimientos sin intervención manual.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section class="plans" id="planes">
+    <div class="section-inner">
+      <div class="section-label">Licencias</div>
+      <h2>Elige tu plan</h2>
+      <div class="plans-grid">
+        <div class="plan">
+          <h3>Trial</h3>
+          <p>Prueba ConectaoMail antes de comprometerte. Ideal para evaluar el complemento.</p>
+          <span class="plan-chip">Gratuito</span>
+        </div>
+        <div class="plan featured">
+          <div class="plan-badge">Recomendado</div>
+          <h3>Pro</h3>
+          <p>Acceso completo a todas las funciones con soporte prioritario incluido.</p>
+          <span class="plan-chip">Suscripción</span>
+        </div>
+        <div class="plan">
+          <h3>Permanente</h3>
+          <p>Pago único. Usa ConectaoMail para siempre sin cuotas mensuales.</p>
+          <span class="plan-chip">Pago único</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="support" id="soporte">
+    <div class="section-inner">
+      <div class="section-label">Soporte</div>
+      <h2>¿Tienes preguntas?</h2>
+      <p class="section-desc">Contáctanos por correo o WhatsApp — estamos para ayudarte.</p>
+      <div class="support-card">
+        <div class="support-row">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <a href="mailto:edisonpeguero61@gmail.com">edisonpeguero61@gmail.com</a>
+        </div>
+        <div class="support-row">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <a href="https://wa.me/18097582769" target="_blank" rel="noopener">809-758-2769</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="ConectaoMaillogo.png" alt="ConectaoMail" />
+    </div>
+    <div class="footer-links">
+      <a href="privacy.html">Política de privacidad</a>
+      <a href="mailto:edisonpeguero61@gmail.com">Contacto</a>
+    </div>
+    <span class="footer-copy">© 2025 ConectaoMail</span>
+  </footer>
+
+</body>
+</html>
